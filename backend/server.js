@@ -1,7 +1,7 @@
 const experss = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
+const path = require('path');   
 //gets the environment variables from the .env file
 require('dotenv').config();
 
@@ -34,8 +34,10 @@ const usersRouter = require('./routes/users');
 app.use('/excersizes', excersizesRouter);
 app.use('/users', usersRouter);
 
-
-
+app.use(experss.static('./src/build'));
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'src','build','index.html'));
+});
 //requires the files from the routes folder
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
